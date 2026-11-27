@@ -28,7 +28,7 @@ Both pages share one unlock, so a code or pass works on either page.
 
 - Paid planners cost **$2 to $8**, set automatically by how complex the planner is.
 - **Passes (personal use):** Weekly (7 days), Monthly (30 days) and Yearly (365 days) unlock every planner, every date and unlimited exports. Default prices are $4, $9 and $49 and can be changed in `config.js`.
-- A single-planner code ($1 to $8) unlocks every planner priced at or below that amount, with no end date.
+- A single-planner code ($2 to $8) unlocks every planner priced at or below that amount, with no end date.
 - The unlock is saved on the customer's device and is reused for every planner, date and export until a pass ends.
 
 ## Ko-fi setup
