@@ -26,14 +26,14 @@ Both pages share one unlock, so a code or pass works on either page.
 |---|---|---|---|
 | Edit and export | Yes, no watermark | Preview only, watermarked export | Needs an unlock (a free planner costs the surcharge, default $2) |
 
-- Paid planners cost **$1 to $8**, set automatically by how complex the planner is.
+- Paid planners cost **$2 to $8**, set automatically by how complex the planner is.
 - **Passes (personal use):** Weekly (7 days), Monthly (30 days) and Yearly (365 days) unlock every planner, every date and unlimited exports. Default prices are $4, $9 and $49 and can be changed in `config.js`.
 - A single-planner code ($1 to $8) unlocks every planner priced at or below that amount, with no end date.
 - The unlock is saved on the customer's device and is reused for every planner, date and export until a pass ends.
 
 ## Ko-fi setup
 
-1. In Ko-fi, create 8 shop items ("Planner Unlock $1" to "$8") and 3 pass items (Weekly, Monthly, Yearly).
+1. In Ko-fi, create 8 shop items ("Planner Unlock $2" to "$8") and 3 pass items (Weekly, Monthly, Yearly).
 2. In each item's thank-you message, put the matching code and a link such as `https://your-site.vercel.app/?code=HV3-XXXXX-XXXXX`. The code appears in the box and the buyer clicks **Apply**.
 3. Open your site with `?owner=1` at the end of the address, fill in the item links, prices and codes, press **Generate**, and paste the result into `config.js` on GitHub.
 
