@@ -1,0 +1,14 @@
+# OS & editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Local test / temp exports
+*.pdf
+*.tmp
+*.log
+.env
+.env.*
