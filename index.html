@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Handle Vault Planner Studio: 101 printable planners in 21 styles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Silkscreen:wght@400;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Figtree',system-ui,sans-serif;color:#2b2030;font-size:14px;background:#fdf1f4;background-image:radial-gradient(60em 40em at 85% -10%,#efe6fb 0,transparent 60%),radial-gradient(50em 36em at -10% 30%,#ffe3ea 0,transparent 55%);background-attachment:fixed}
+button,input{font:inherit;color:inherit}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;margin:14px 24px 0;padding:10px 12px 10px 18px;background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border:1px solid #f3dfe6;border-radius:99px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:30px;height:30px;border-radius:50%;background:#d6336c;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:600}
+.brand b{font-family:'Fraunces',serif;font-weight:600;font-size:18px}
+.brand .sub{color:#8b7a85;font-size:13px}
+.btn{height:38px;padding:0 18px;border-radius:99px;border:1px solid #ecd5de;background:#fff;color:#3b2c40;font-weight:500;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.btn:hover{background:#fff6f8}.btn.pri{background:#d6336c;border-color:#d6336c;color:#fff}.btn.pri:hover{background:#b92a5c}
+.btn.big{height:48px;padding:0 28px;font-size:16px}.btn:disabled{opacity:.55;cursor:wait}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:24px;max-width:1180px;margin:0 auto;padding:48px 32px 40px}
+.hero h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(38px,5.4vw,66px);line-height:1.04;letter-spacing:-.02em;margin:0 0 18px}
+.hero p{font-size:18px;line-height:1.5;color:#6b5a68;max-width:30em;margin:0 0 26px}
+.stack{position:relative;height:410px}
+.stack .th{border-radius:6px;box-shadow:0 22px 40px -14px rgba(90,30,60,.4)}
+.studio{display:flex;height:max(660px,calc(100vh - 84px));margin:0 24px 28px;border-radius:30px;overflow:hidden;background:#fff;border:1px solid #f3dfe6;box-shadow:0 30px 60px -30px rgba(120,40,80,.35)}
+aside{width:360px;flex:none;overflow-y:auto;background:#fffafb;border-right:1px solid #f3dfe6}
+aside section{padding:18px 18px 8px}
+aside h2{margin:0 0 10px;font-family:'Fraunces',serif;font-weight:600;font-size:17px}
+.seg{display:grid;gap:4px;background:#f8ecf0;padding:4px;border-radius:14px;margin-bottom:10px}
+.seg button{border:0;background:none;border-radius:10px;padding:8px;color:#74606e;cursor:pointer;text-align:center}
+.seg.v button{text-align:left}
+.seg button.on{background:#fff;color:#2b2030;font-weight:600;box-shadow:0 1px 3px rgba(120,40,80,.18)}
+.seg button:disabled{opacity:.4;cursor:not-allowed}
+.pins{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.pin{border:2px solid transparent;background:#fff;border-radius:18px;padding:7px 7px 10px;text-align:left;cursor:pointer;box-shadow:0 2px 10px rgba(120,40,80,.12)}
+.pin:nth-child(even){margin-top:22px}
+.pin .th{border-radius:11px;overflow:hidden;box-shadow:inset 0 0 0 1px #f0e2e8}
+.pin b{display:block;margin:8px 3px 0;font-size:13px}.pin small{display:block;margin:2px 3px 0;color:#8b7a85;font-size:11px;line-height:1.3}
+.pin.on{border-color:#d6336c;background:#fff4f7}
+.chips{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+.chip{border:2px solid transparent;background:#fff;border-radius:14px;padding:8px 2px 6px;cursor:pointer;box-shadow:0 1px 6px rgba(120,40,80,.12)}
+.chip .dots{display:flex;justify-content:center}.chip .dots i{width:14px;height:14px;border-radius:50%;margin:0 -2px;box-shadow:0 0 0 2px #fff}
+.chip small{display:block;margin-top:6px;font-size:10px;color:#74606e}
+.chip.on{border-color:#d6336c;background:#fff4f7}
+.in{width:100%;height:40px;border:1px solid #ecd5de;border-radius:12px;padding:0 12px;margin-bottom:10px;background:#fff}
+.in:disabled{background:#faf3f5;color:#b5a5ae}
+.in:focus{outline:2px solid #f3b4ca;border-color:#d6336c}
+label.lb{display:block;font-size:12px;color:#8b7a85;margin-bottom:4px}
+label.ck2{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;cursor:pointer;font-weight:500}
+label.ck2 small{display:block;color:#8b7a85;font-size:12px;font-weight:400}
+label.ck2 input{margin-top:3px;accent-color:#d6336c}
+main{position:relative;flex:1;min-width:0;background-color:#f9eef2;background-image:radial-gradient(#e9cfda 1.2px,transparent 1.2px);background-size:22px 22px}
+#scroll{position:absolute;inset:0;overflow:auto}
+#wrap{min-width:fit-content;min-height:100%;display:flex;flex-direction:column;align-items:center;padding:40px 40px 110px}
+#box{flex:none;border-radius:4px;box-shadow:0 2px 4px rgba(90,30,60,.08),0 24px 48px -14px rgba(90,30,60,.35)}
+#inner{transform-origin:top left}
+.hint{margin-top:16px;font-size:13px;color:#8b7a85}
+#bar{position:absolute;left:0;right:0;bottom:20px;display:flex;justify-content:center;pointer-events:none}
+#bar>div{pointer-events:auto;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #f0dce4;border-radius:99px;padding:5px 8px;box-shadow:0 8px 22px rgba(120,40,80,.18)}
+#bar button{border:0;background:none;border-radius:99px;padding:6px 14px;color:#74606e;cursor:pointer}
+#bar button.on{background:#d6336c;color:#fff}
+#nav{display:none;align-items:center;border-left:1px solid #f0dce4;padding-left:10px;color:#74606e}
+#nav button{padding:5px 10px;font-size:16px}#nav button:disabled{opacity:.3}
+.th{display:block;overflow:hidden;background:#fff}
+@media(max-width:900px){.hero{grid-template-columns:1fr;padding:28px 20px}.stack{height:370px;transform:scale(.9);transform-origin:top left}.studio{flex-direction:column;height:auto;margin:0 12px 20px}aside{width:100%;max-height:52vh;border-right:0;border-bottom:1px solid #f3dfe6}main{min-height:75vh}#wrap{padding:20px 20px 110px}.top{margin:10px 12px 0}.brand .sub{display:none}}
+
+.cats{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:6px}
+.cat{flex:none;border:1px solid #ecd5de;background:#fff;border-radius:99px;padding:5px 12px;font-size:12px;cursor:pointer;color:#74606e}
+.cat.on{background:#d6336c;border-color:#d6336c;color:#fff}
+.none{color:#8b7a85;font-size:13px;margin:6px 2px}
+.cnt{display:block;color:#8b7a85;font-size:12px;margin:-4px 0 10px}
+.chips{grid-template-columns:repeat(5,1fr)}
+/* planner page */
+.pg{position:relative;display:flex;flex-direction:column;overflow:hidden;background:#fff;color:var(--ink)}
+.pg header{flex:none;display:flex;align-items:flex-end;justify-content:space-between;gap:1em;border-bottom:2px solid var(--accent);padding-bottom:.6em}
+.pg h1{margin:0;font-size:2em;font-weight:600;line-height:1;letter-spacing:-.02em}
+.pg header p{margin:0;font-size:.95em;color:var(--muted);display:flex;align-items:flex-end;gap:.5em}
+.bl{display:inline-block;width:11em;height:1.2em;border-bottom:1px solid var(--muted)}
+.pb{flex:1;min-height:0;padding-top:1.1em}
+.bz{position:absolute;left:0;top:0;bottom:0;background:var(--soft);opacity:.55;border-right:1px dashed var(--accent);pointer-events:none}
+.ed{cursor:text;border-radius:.2em;outline:none}
+.ed:hover{background:rgba(58,86,212,.08)}.ed:focus{background:rgba(58,86,212,.12);box-shadow:0 0 0 .15em rgba(58,86,212,.35)}
+.ed:empty{display:inline-block;min-width:4em}.ed:empty:before{content:attr(data-ph);opacity:.4}
+.col{display:flex;flex-direction:column;min-height:0}.g12{gap:1.2em}.g14{gap:1.4em}.f1{flex:1;min-height:0}.fill{height:100%}
+.grid2{display:grid;grid-template-rows:minmax(0,1fr);gap:1.6em;min-height:0}
+.sec{display:flex;flex-direction:column;min-height:0}
+.sh{flex:none;margin-bottom:.55em;padding-bottom:.3em;border-bottom:1px solid var(--accent);font-size:.95em;font-weight:600;color:var(--accent)}
+.sb{flex:1;min-height:0;display:flex;flex-direction:column}
+.fx1{flex:1}.fx13{flex:1.3}.fx14{flex:1.4}.fx2{flex:2}.nf{flex:none}
+.wa{flex:1;min-height:0}
+.wa.lined{background-image:linear-gradient(to bottom,transparent 0,transparent 2.3em,var(--line) 2.3em,var(--line) 2.4em);background-size:100% 2.4em}
+.wa.dotted{background-image:radial-gradient(circle,var(--muted) .6px,transparent .9px);background-size:1.6em 1.6em;background-position:.8em .8em}
+.ck{height:2.4em;display:flex;align-items:center;border-bottom:1px solid var(--line)}
+.ck i,.bx{display:block;width:.95em;height:.95em;border:1px solid var(--muted);border-radius:.18em}
+.hr{flex:1;min-height:0;display:flex;align-items:flex-end;border-bottom:1px solid var(--line)}
+.hr span{width:3.6em;font-size:.8em;color:var(--muted);padding-bottom:.25em}
+.pr{height:2.5em;display:flex;align-items:center;border-bottom:1px solid var(--line)}
+.pr b{width:1.7em;height:1.7em;border-radius:50%;background:var(--soft);color:var(--accent);font-size:.8em;display:flex;align-items:center;justify-content:center}
+.dr{display:inline-block;width:1.5em;height:1.5em;border-radius:50%;border:1px solid var(--accent);margin:0 .6em .6em 0}
+.mood{display:flex;flex-wrap:wrap;gap:.7em}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1em;flex:none}
+.wr{flex:1;min-height:0;display:flex;gap:.8em;padding:.35em 0;border-bottom:1px solid var(--line)}
+.wd{width:3.6em;flex:none}.wd b{display:block;color:var(--accent);font-weight:600}.wd small{font-size:.8em;color:var(--muted)}
+.hg{display:grid;grid-template-columns:1fr repeat(7,1.5em);align-items:center}
+.hg.hh{font-size:.75em;color:var(--muted);text-align:center;padding-bottom:.2em}
+.hg.h6{height:2em;border-bottom:1px solid var(--line)}.hg .bx{margin:auto}
+.mh{display:grid;grid-template-columns:repeat(7,1fr);padding-bottom:.4em;text-align:center;font-size:.85em;font-weight:600;color:var(--accent)}
+.mg{display:grid;flex:1;min-height:0;grid-template-columns:repeat(7,1fr);border-left:1px solid var(--line);border-top:1px solid var(--line)}
+.mc{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:.35em;font-size:.85em;font-weight:500}
+.hb{display:grid;border-left:1px solid var(--line);border-top:1px solid var(--line);flex:1;min-height:0}
+.hb>div{border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.hb>.hn{display:flex;align-items:center;padding:0 .5em;font-size:.9em}
+.hd{display:grid;align-items:end;flex:none}
+.hd>div{display:flex;flex-direction:column;align-items:center;padding-bottom:.3em;font-size:.72em;line-height:1.2}
+.hd .nm{align-items:flex-start;padding-left:.4em;font-size:1em;font-weight:600;color:var(--accent)}
+.hd small{color:var(--muted)}
+#ex{position:absolute;top:0;left:-10000px;pointer-events:none}
+@media(max-width:900px){.body{flex-direction:column}aside{width:100%;max-height:42vh;border-right:0;border-bottom:1px solid #e4e4e7}#wrap{padding:20px 20px 110px}}
+@media print{
+ html,body{height:auto;background:#fff}#app{display:none!important}
+ #ex{position:static}
+ .pg{break-after:page;page-break-after:always;break-inside:avoid;height:calc(var(--ph) - .4mm)!important}
+ .pg:last-child{break-after:auto;page-break-after:auto}
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* cute layer */
+.pg.c1,.pg.c2{background-image:radial-gradient(var(--soft) 2px,transparent 2.4px);background-size:16px 16px}
+.pg .fr{position:absolute;top:3.5mm;left:3.5mm;right:3.5mm;bottom:3.5mm;border:.14em dashed var(--accent);border-radius:1.4em;opacity:.55;pointer-events:none}
+.pg .tp{position:absolute;top:1.4mm;left:50%;width:10em;height:1.7em;margin-left:-5em;background:var(--accent);opacity:.35;transform:rotate(-2deg);border-radius:.2em}
+.pg .stk{position:absolute;line-height:1;pointer-events:none}
+.pg .em{margin-right:.2em}
+.pg .sk{display:inline-block;margin-right:.35em}
+.pg.c1 .sec,.pg.c2 .sec{background:var(--soft);border-radius:1.1em;padding:.6em .8em .7em}
+.pg.c1 .sh,.pg.c2 .sh{border-bottom:.12em dotted var(--accent)}
+.tb{display:grid;flex:1;min-height:0;font-size:.85em}
+.tb b{font-weight:600;color:var(--accent);padding:0 .4em .3em;border-bottom:1px solid var(--accent)}
+.tb div{border-bottom:1px solid var(--line);border-right:1px solid var(--line);display:flex;align-items:center;justify-content:center;min-height:0}
+.lr{flex:1;min-height:2.2em;border-bottom:1px solid var(--line);padding-top:.2em;font-size:.85em;color:var(--muted)}
+.dts{display:flex;flex-wrap:wrap;gap:.5em}
+.dt{display:block;width:1.4em;height:1.4em;border-radius:50%;border:1px solid var(--accent)}.dt.sm{width:1.15em;height:1.15em}
+.yr{display:grid;flex:1;min-height:0;grid-template-columns:2.4em repeat(31,minmax(0,1fr));border-left:1px solid var(--line);border-top:1px solid var(--line);font-size:.75em}
+.yr div{border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.yr .ym{display:flex;align-items:center;padding-left:.3em;font-weight:600;color:var(--accent)}
+
+/* style kinds */
+.chips{grid-template-columns:1fr 1fr;gap:6px;margin-bottom:4px}
+.chip{display:flex;align-items:center;gap:8px;text-align:left;padding:7px 8px}
+.chip .dots{flex:none}
+.chip small{margin:0;font-size:11.5px;line-height:1.2;color:#4a3a45}
+.gh{font-size:11px;font-weight:600;color:#8b7a85;margin:12px 0 6px}
+.pg .stk,.pg .sk{color:var(--accent)}
+.pg .sk svg,.pg .stk svg{vertical-align:-.15em}
+.qt{flex:none;text-align:center;font-style:italic;color:var(--accent);padding-top:.7em;font-size:.95em}
+.pg.s-aes:not(.c0){background-image:none}
+.pg.s-aes:not(.c0) .fr{border:1px solid var(--accent);border-radius:0;opacity:.7}
+.pg.s-aes:not(.c0) .tp{display:none}
+.pg.s-aes:not(.c0) .sec{background:none;border-radius:0;border-top:1px solid var(--accent);padding:.5em 0 .6em}
+.pg.s-aes:not(.c0) .sh{border-bottom:0;text-transform:uppercase;letter-spacing:.16em;font-size:.78em;margin-bottom:.4em}
+.pg.s-aes h1,.pg.s-aes .sh{font-family:'Newsreader',Georgia,serif}
+.pg.s-aes .stk{opacity:.6}
+.pg.s-pix:not(.c0){background-image:none}
+.pg.s-pix:not(.c0) .fr{border:.22em solid var(--accent);border-radius:0;opacity:1}
+.pg.s-pix:not(.c0) .tp{display:none}
+.pg.s-pix:not(.c0) .sec{background:var(--soft);border:.16em solid var(--accent);border-radius:0;box-shadow:.3em .3em 0 var(--line);padding:.5em .7em .7em}
+.pg.s-pix:not(.c0) .sh{background:var(--accent);color:#fff;border:0;padding:.25em .5em;margin:-.5em -.7em .6em}
+.pg.s-pix:not(.c0) .sh .sk{color:#fff}
+.pg.s-pix h1,.pg.s-pix .sh{font-family:'Silkscreen',monospace}
+.pg.s-line:not(.c0){background-image:none}
+.pg.s-line:not(.c0) .fr{border:.1em solid var(--ink);border-radius:1.2em;opacity:1}
+.pg.s-line:not(.c0) .tp{display:none}
+.pg.s-line:not(.c0) .sec{background:none;border:.1em solid var(--ink);border-radius:.8em;padding:.5em .8em .7em}
+.pg.s-line:not(.c0) .sh{border-bottom:.1em solid var(--ink)}
+.pg.s-line .sh{color:var(--ink);font-size:1.2em}
+.pg.s-line h1{font-size:2.4em}
+.pg.s-line h1,.pg.s-line .sh{font-family:'Caveat',cursive}
+.pg.s-mot:not(.c0){background-image:none}
+.pg.s-mot:not(.c0) .fr,.pg.s-mot:not(.c0) .tp{display:none}
+.pg.s-mot:not(.c0) .sec{background:var(--soft);border-radius:.5em;border-left:.4em solid var(--accent);padding:.6em .8em .7em}
+.pg.s-mot:not(.c0) .sh{border-bottom:0}
+.pg.s-mot h1{text-transform:uppercase;font-weight:800}
+.pg.s-mot .sh{text-transform:uppercase;letter-spacing:.08em;font-size:.85em}
+.pg.s-mot .qt{font-weight:600}
+.pg.s-man:not(.c0){background-image:none}
+.pg.s-man:not(.c0) .fr{border:.12em solid var(--accent);border-radius:.25em;opacity:.8}
+.pg.s-man:not(.c0) .tp{display:none}
+.pg.s-man:not(.c0) .sec{background:var(--soft);border-radius:.25em;border-left:.3em solid var(--accent);padding:.6em .8em .7em}
+.pg.s-man:not(.c0) .sh{border-bottom:0}
+.pg.s-man h1{text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.pg.s-man .sh{text-transform:uppercase;letter-spacing:.1em;font-size:.82em}
+
+.shop{background:#fff;border:1px solid #f3dfe6;border-radius:18px;padding:14px;margin-bottom:12px}
+.price{display:flex;align-items:baseline;gap:10px}.price b{font-family:'Fraunces',serif;font-size:34px;line-height:1;color:#d6336c}.price span{color:#74606e;font-weight:500}
+.pn{margin:8px 0 12px;color:#74606e;font-size:12.5px;line-height:1.4}
+.shop .btn{width:100%;justify-content:center;text-align:center;height:42px}
+.crow{display:flex;gap:6px}.crow .in{margin:0}.crow .btn{width:auto}
+#cmsg{display:block;margin-top:6px;font-size:12px;min-height:1em}
+.pin{position:relative}.pp{position:absolute;top:13px;right:13px;background:#d6336c;color:#fff;font-size:11px;font-weight:700;border-radius:99px;padding:2px 8px;z-index:2}
+.wm{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5}
+.wm span{transform:rotate(-30deg);font-size:3em;font-weight:700;color:var(--accent);opacity:.17;white-space:nowrap;border:.08em solid var(--accent);padding:.1em .4em}
+
+.pulse{animation:pl 1.1s ease 4}@keyframes pl{50%{box-shadow:0 0 0 7px rgba(214,51,108,.35)}}
+.own textarea{width:100%;height:150px;margin:8px 0;font:12px/1.4 ui-monospace,monospace;border:1px solid #ecd5de;border-radius:12px;padding:8px}
+.own .row{display:grid;grid-template-columns:30px 1fr 1fr;gap:6px;margin-bottom:6px;align-items:center}.own .row .in{margin:0;height:34px;font-size:12px}
+.own .pn{word-break:break-all}
+
+/* v8: dates, unlock plans, quotes, editable fields */
+.lockbar{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;max-width:640px;margin:0 0 18px;padding:10px 14px;background:#fff;border:1px solid #f3dfe6;border-radius:16px;box-shadow:0 6px 18px rgba(120,40,80,.12);font-size:13px;color:#4a3a45;text-align:center}
+.lockbar[hidden]{display:none}
+.lockbar .btn{height:34px;padding:0 14px}
+.ustat{display:inline-block;margin-bottom:8px;padding:3px 10px;border-radius:99px;background:#f4f4f5;color:#52525b;font-size:12px;font-weight:600}
+.ustat.ok{background:#dcfce7;color:#166534}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0}
+.plan{display:block;position:relative;text-align:center;text-decoration:none;color:#2b2030;border:1px solid #ecd5de;border-radius:14px;padding:12px 4px 8px;background:#fff}
+.plan:hover{background:#fff6f8}.plan b{display:block;font-size:12px}
+.plan span{display:block;font-family:'Fraunces',serif;font-size:21px;color:#d6336c;line-height:1.3}
+.plan small{display:block;color:#8b7a85;font-size:10.5px;line-height:1.25}
+.plan.best{border-color:#d6336c;background:#fff4f7}
+.plan em{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:#d6336c;color:#fff;font-size:10px;font-style:normal;font-weight:600;padding:1px 8px;border-radius:99px;white-space:nowrap}
+.pre{flex:none;border:1px solid #ecd5de;background:#fff;border-radius:99px;padding:5px 12px;font-size:12px;cursor:pointer;color:#74606e}.pre:hover{background:#fff4f7}
+.sum{margin:8px 0 6px;font-size:13px;font-weight:600;color:#2b2030}
+.err{margin:0 0 6px;font-size:12.5px;color:#b42318}
+.pn.fine{font-size:11.5px;margin:10px 0 0}
+textarea.ta{height:92px;padding:8px 10px;resize:vertical;line-height:1.4}
+.own .row3{display:grid;grid-template-columns:64px 1fr 1fr;gap:6px;margin-bottom:8px}.own .row3 .in{margin:0;height:34px;font-size:12px}
+.pp.ok{background:#16a34a}
+.fe{outline:none;border-radius:.15em}
+.fe[contenteditable]:hover{background:rgba(58,86,212,.07)}
+.fe[contenteditable]:focus{background:rgba(58,86,212,.11);box-shadow:0 0 0 .12em rgba(58,86,212,.3)}
+.fe[contenteditable]:empty{display:inline-block;min-width:3em}
+.ml{white-space:pre-wrap}
+.wa{overflow:hidden}
+.wa .wf{display:block;min-height:100%;line-height:2.4em;padding-right:.2em}
+.wa.dotted .wf,.wa.blank .wf{line-height:1.6em}
+.tg{cursor:pointer}
+.ck i{flex:none;margin-right:.7em}
+.ckf{flex:1;min-width:0;white-space:nowrap;overflow:hidden}
+.ck i.on,.bx.on{background:var(--accent);border-color:var(--accent);display:flex;align-items:center;justify-content:center}
+.ck i.on b,.bx.on b{font-size:.8em;line-height:1;color:#fff;font-weight:700}
+.dt.on{background:var(--accent)}
+.dt.nm{display:flex;align-items:center;justify-content:center;width:2.1em;height:2.1em;font-size:.8em;font-style:normal;color:var(--accent)}.dt.nm.on{color:#fff}
+.fc{display:inline-flex;padding:.15em;border-radius:50%}.fc.on{background:#fff;box-shadow:0 0 0 .16em var(--accent)}
+.pr .pf{flex:1;min-width:0;margin-left:.7em}
+.hr .hf{flex:1;align-self:stretch;display:flex;align-items:flex-end;min-width:0;width:auto;font-size:1em;color:var(--ink);padding-bottom:.2em}
+.lr{display:flex;align-items:flex-end;gap:.6em;font-size:1em;color:var(--ink);padding:0 0 .1em}
+.lr .ll{font-size:.85em;color:var(--muted);white-space:nowrap;padding-bottom:.15em}
+.lr .lf{flex:1;min-width:0;min-height:1.3em}
+.tb .tf{width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 .2em;min-width:0}
+.hg .hl7{font-size:.9em;padding-right:.4em;min-width:0;overflow:hidden;white-space:nowrap;align-self:stretch;display:flex;align-items:center}
+.mc{overflow:hidden}.mc .dn{display:block;font-weight:600}.mc .mf{display:block;font-size:.85em;font-weight:400;line-height:1.25;margin-top:.15em;min-height:1.5em}
+.yr .on,.hb .on{background:var(--accent)}
+.hb>.tg:hover,.yr .tg:hover{background:var(--line)}
+.qt .qf{font-style:italic}
+.wdf{display:block;min-width:2.6em;min-height:1em;border-bottom:1px solid var(--line)}
+.dnf{display:inline-block;min-width:1.5em;min-height:1em}
+.fe.hdt{color:var(--muted)}
+</style>
+</head>
+<body>
+<div id="app">
+ <header class="top">
+  <div class="brand"><span class="logo">H</span><b>Handle Vault</b><span class="sub">Planner Studio</span></div>
+  <div><a class="btn" href="seasonal.html">Seasonal &amp; events</a> <a class="btn" id="kofiTop" target="_blank" rel="noopener">♥ Ko-fi</a> <button class="btn" id="print">Print</button> <button class="btn pri" id="pdf">Download PDF</button></div>
+ </header>
+ <section class="hero">
+  <div>
+   <h1>101 planners in 21 styles. Make yours in a minute.</h1>
+   <p>Cute, aesthetic, pixel, line art, motivational or masculine: pick a planner, choose a style, and download a print-ready PDF in A4, A5 or US Letter. Starter planners are free.</p>
+   <a class="btn pri big" href="#studio">Start designing</a>
+  </div>
+  <div class="stack" id="stack"></div>
+ </section>
+ <section class="studio" id="studio">
+  <aside id="side"></aside>
+  <main>
+   <div id="scroll"><div id="wrap"><div id="lockbar" class="lockbar" hidden><span id="lbt"></span> <button class="btn pri" id="lbb">See unlock options</button></div><div id="box"><div id="inner"></div></div><p class="hint" id="hint"></p></div></div>
+   <div id="bar"><div><span id="zoom"></span><span id="nav"><button id="prev" aria-label="Previous page">‹</button><span id="pn"></span><button id="next" aria-label="Next page">›</button></span></div></div>
+  </main>
+ </section>
+</div>
+<script src="config.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const P={a4:{l:'A4',s:'210 × 297 mm',w:210,h:297,f:11,m:12},a5:{l:'A5',s:'148 × 210 mm',w:148,h:210,f:8.4,m:9},letter:{l:'US Letter',s:'8.5 × 11 in',w:215.9,h:279.4,f:11,m:12}};
+const SKN=['cute','kawaii','starlight','blossom','cloud','cozy','honeybee','patisserie','sunrise','tea'];
+const T={cute:['Cute Aesthetic','#3d3350','#e86aa6','#fdecf5','#f5c3dc','#9a7fa8'],kawaii:['Kawaii Plushie','#4a2c3b','#e75a8f','#ffeaf2','#f6bfd3','#a8708a'],starlight:['Starlight & Celestial','#1f2146','#6a5ad6','#ecebff','#c7c3f2','#7b79ad'],blossom:['Blossom Garden','#4a2f3a','#d4739a','#fdeef3','#f3c9d9','#a77c8d'],cloud:['Cloud Library','#26405a','#5a9bd4','#e8f3fc','#bcd9f0','#6b8aa6'],cozy:['Cozy Desk','#473224','#b5784a','#fbf0e3','#e9cfb2','#9b7b62'],honeybee:['Honeybee','#46391a','#e6a817','#fff7d9','#f6e19a','#a68d4d'],patisserie:['Patisserie','#4a3028','#e8837a','#fff0ec','#f9cfc6','#b58478'],sunrise:['Sunrise Watercolor','#4a3040','#f08a5d','#fff1e8','#f8cdb4','#a8788a'],tea:['Tea Party','#27382c','#5f9a6a','#eaf5e6','#bfdcb9','#6f8c73']};
+const SK={cute:['💖','🎀','⭐','🍓','🌈','✨'],kawaii:['🧸','🐰','🎀','🍓','💖','☁️'],starlight:['⭐','🌙','✨','🪐','💫','☁️'],blossom:['🌸','🌷','🦋','🌼','🌿','💮'],cloud:['☁️','📚','🌈','🕊️','💙','⭐'],cozy:['🕯️','☕','🧶','📖','🍂','🧸'],honeybee:['🐝','🍯','🌼','🌻','🍋','✨'],patisserie:['🧁','🍰','🍓','🥐','🍩','🎀'],sunrise:['🌅','🌈','🌸','🦋','☀️','✨'],tea:['🫖','🍵','🌹','🍰','🌿','🦋']};
+
+SKN.forEach(k=>{T[k][6]='cute'});
+Object.assign(T,{
+mocha:['Mocha Minimal','#3b3028','#9c7a5b','#f6f0e8','#e0d3c3','#8f7f70','aes'],
+sagej:['Sage Journal','#2d3a2f','#7f9a82','#f1f4ee','#d4ddd0','#7d8c7f','aes'],
+pixarcade:['Pixel Arcade','#1b1340','#6c3bff','#efe9ff','#cfc2ff','#6f64a8','pix'],
+pixgarden:['Pixel Garden','#12351f','#17a34a','#e6f8ea','#b5e5c1','#4f8a62','pix'],
+lineart:['Line Art Mono','#111111','#111111','#ffffff','#cfcfcf','#6b6b6b','line'],
+lineblush:['Line Art Blush','#3a2a33','#d9608f','#ffffff','#f0c6d6','#9b7a88','line'],
+boss:['Boss Energy','#1a1a2e','#ff5a36','#fff1ec','#ffd2c6','#7a7a92','mot'],
+fire:['Daily Fire','#2a1a00','#f59e0b','#fff7e0','#fde2a1','#8a6a30','mot'],
+navy:['Midnight Navy','#14213d','#2b4c7e','#e8edf5','#b8c5da','#5c6b85','man'],
+forest:['Forest Ranger','#1f2d1c','#3f6b3a','#e9efe2','#c3d1b5','#5f7258','man'],
+carbon:['Carbon & Copper','#1c1c1e','#c8663a','#efece8','#d6d0c8','#6e6a66','man']});
+const LA=d=>`<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="#c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const LINE=[LA('<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'),LA('<path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/>'),LA('<circle cx="12" cy="12" r="2"/><path d="M12 10c-2-4 0-7 0-7s2 3 0 7zM14 12c4-2 7 0 7 0s-3 2-7 0zM12 14c2 4 0 7 0 7s-2-3 0-7zM10 12c-4 2-7 0-7 0s3-2 7 0z"/>'),LA('<path d="M12 3v6M12 15v6M3 12h6M15 12h6"/>'),LA('<path d="M7 18h10a4 4 0 000-8 5.5 5.5 0 00-10.6 1.5A3.3 3.3 0 007 18z"/>'),LA('<path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/>')];
+Object.assign(SK,{mocha:['✦','○','◦','☾','✧','♡'],sagej:['❀','✦','○','✿','☘','♡'],pixarcade:['■','▲','●','★','♥','◆'],pixgarden:['■','▲','♣','★','♥','◆'],lineart:LINE,lineblush:LINE,boss:['🔥','💪','🚀','🏆','⚡','🎯'],fire:['⭐','🔥','💫','🌟','✨','🙌'],navy:['⚓','🧭','⭐','🎯','🔧','⛰️'],forest:['🌲','⛰️','🧭','🏕️','🪓','🦌'],carbon:['🔧','⚙️','🏁','🛠️','🎯','🔩']});
+SKN.push('mocha','sagej','pixarcade','pixgarden','lineart','lineblush','boss','fire','navy','forest','carbon');
+const GROUPS=[['Cute',SKN.slice(0,10)],['Aesthetic',['mocha','sagej']],['Pixel',['pixarcade','pixgarden']],['Line art',['lineart','lineblush']],['Motivational',['boss','fire']],['Masculine',['navy','forest','carbon']]];
+const QT=["Small steps still move you forward.","Make today count.","Discipline is choosing what you want most over what you want now.","You are one plan away from a better week.","Done is better than perfect.","Dream big, start small, begin today.","Your future self is watching. Make them proud.","Progress, not perfection.","Keep the promises you make to yourself.","Focus on the next right thing.","Hard work quietly builds big things.","Today's effort is tomorrow's momentum.","Plan it. Do it. Celebrate it.","Consistency beats intensity.","You have survived every bad day so far.","Start where you are. Use what you have.","Energy flows where focus goes.","Show up even when it is hard.","One good habit can change everything.","Believe you can, then go prove it.","Be proud of how far you have come.","Let your goals be louder than your doubts.","Rest if you must, but never quit.","Build the life you keep daydreaming about.","You are capable of more than you think.","Every day is a fresh page.","Do it with your whole heart.","Stay patient. Stay consistent.","Choose growth over comfort.","Good things take time. Keep going."];
+const F={sans:['Clean Sans-Serif',"'Figtree',system-ui,sans-serif"],serif:['Editorial Serif',"'Newsreader',Georgia,serif"],mono:['Modern Monospace',"'JetBrains Mono',ui-monospace,monospace"]};
+const LS={lined:'Lined',dotted:'Dotted grid',blank:'Blank',check:'Checklist'};
+const CUTE={0:'Clean',1:'Light',2:'Overload'};
+/* ---- Ko-fi pricing: edit here ---- */
+const KOFI_DEF={user:'handlevaultofficial',bump:2,tiers:{1:'',2:'',3:'',4:'',5:'',6:'',7:'',8:''},hash:{"1": "884172b8fd18b8fe248b8fff202fb0b842aee4e611c604af1c6c5b53b75c5d80", "2": "b732314db3d5a98e39e0ee4223a928fdb4a6246b93b1bb5c42ce536db21a5f72", "3": "73a89e0d9f82c4a2718d26f4f8597e3842d1cadd0a8ad2c597c542fb12762238", "4": "a1f9c7c9fb0a7e45a945991be37ec0d6da4086b40e3e830b9c8c4ac9d683ff54", "5": "7b50f8a46a68e66781c323158183b415fcaf942c58c89045b07455014ed10fdb", "6": "66123cfb5b1813876d0c7745fc14e57141bec3d38fc2eceaea38857e4887c425", "7": "911212dc4425e47469b714bb8a71dba572e63a73ebc021a088c27da5556fa869", "8": "76c70c47058c5eebc3e250d69166031befd1229d35451a662dd86b8a9c44afb2"},plans:{"week": {"days": 7, "price": 4, "link": "", "hash": "d5b1edaf7c3dcfcd32fb2492efc97a670f19b38bec7446a943626d174c6663d4"}, "month": {"days": 30, "price": 9, "link": "", "hash": "40b883da88f0cf612841bdf6c7581804a6a01ddd97214745efd0062ae80e67ff"}, "year": {"days": 365, "price": 49, "link": "", "hash": "37c4dd538a8b129b376a5b19339bc9486864ae52cceb20764222d3c3d6290465"}}};
+const KOFI=Object.assign({},KOFI_DEF,window.HV_CONFIG||{});
+['week','month','year'].forEach(k=>{KOFI.plans[k]=Object.assign({},KOFI_DEF.plans[k],KOFI.plans[k])});
+const KW={wa:1,ck:1,lab:1,dots:1,pri:1,mood:1,num:1,hours:2,hab7:2,tbl:2,week:3,month:4,year:4,h31:4},CUTS=[5,5.17,5.5,6.32,7,7.83,8.5];
+const MN=['January','February','March','April','May','June','July','August','September','October','November','December'],MS=MN.map(x=>x.slice(0,3));
+const DN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],DS=DN.map(x=>x.slice(0,3));
+/* ---- catalog: Name|emoji|type(d daily,w weekly,m monthly,n none)|skin|blocks ---- */
+const RAW=`#Daily
+Sunshine Daily|☀️|d|7|hr,pri,todo,water,mood,notes
+Cozy Day Plan|🧸|d|0|pri,hr,todo,gratitude,win,mood
+Busy Bee Daily|🐝|d|7|hr,todo,focus,water,notes
+Minimal Moon Daily|🌙|d|1|pri,todo,notes,mood
+Brain Dump Daily|🧠|d|4|brain,pri,todo,win
+Time-Block Cutie|⏰|d|8|hr,pri,focus,todo
+Gratitude Day|💗|d|2|gratitude,pri,todo,mood,notes
+Self-Care Sunday|🛁|d|4|selfcare,meals,water,mood,gratitude
+Focus Mode Daily|🎧|d|9|pri,focus,todo,brain
+Day in Bloom|🌸|d|2|hr,todo,gratitude,notes
+#Weekly
+Weekly Sweetheart|💕|w|0|week,goals,hab7,notes
+Week at a Glance|👀|w|8|week,pri,notes
+Starry Week|⭐|w|1|week,goals,mood,notes
+Hustle Week|💼|w|9|week,kpi,todo
+Meal Prep Week|🥗|w|3|week,meals,shop
+Fresh Start Week|🌱|w|3|week,goals,hab7,reflect
+Blossom Week|🌷|w|2|week,hab7,gratitude
+Week Wins|🏆|w|7|week,goals,reflect
+Cozy Weekend Plan|🍪|w|5|week,todo,meals
+Student Week|🎒|w|6|week,assign,study
+#Monthly
+Monthly Cutie|🎀|m|0|month,goals,notes
+Month Dreams|🌈|m|4|month,goals,events
+Moonlit Month|🌙|m|1|month,pri,notes
+Budget Month|💰|m|3|month,budget,notes
+Birthday Month|🎂|m|8|month,birthdays,gifts
+Content Calendar|📱|m|9|month,content,notes
+Garden Month|🌼|m|7|month,plants,notes
+Memory Month|📸|m|5|month,win,mood
+#Habits & Wellness
+Habit Garden|🌻|m|7|h31,goals,reflect
+Kawaii Habit Tracker|🐰|m|0|h31,goals,affirm
+30-Day Challenge|🔥|m|5|h31,win,reflect
+Mood Diary|🌈|d|4|mood,gratitude,reflect,notes
+Gratitude Journal|🌸|d|2|gratitude,win,notes
+Self-Care Planner|🧖|d|4|selfcare,skincare,water,mood
+Morning Routine|🌅|d|7|hab7,pri,todo,mood
+Sleep & Dream Log|😴|d|1|sleep,mood,notes,affirm
+Water Tracker|💧|m|6|h31,water,notes
+Mindful Moments|🧘|d|3|affirm,gratitude,reflect,mood
+Affirmation Station|✨|d|8|affirm,win,gratitude,notes
+Digital Detox Plan|📵|d|9|todo,focus,reflect,win
+#Health & Fitness
+Workout Planner|💪|w|9|workout,hab7,weight,notes
+Fit & Cute|🎀|d|0|workout,water,meals,mood
+Meal Planner|🍱|w|3|week,meals,shop
+Weekly Meal Prep|🥕|w|3|meals,shop,notes
+Running Log|🏃|m|6|workout,weight,notes
+Weight Loss Journey|🍑|m|5|weight,meals,water,mood
+Skincare Routine|🧴|d|2|skincare,water,notes
+Yoga Flow Planner|🧘|w|4|hab7,workout,mood
+Healthy Habits Month|🥦|m|3|h31,meals,notes
+Step Count Challenge|👟|m|7|h31,workout,win
+#Finance
+Budget Planner|💸|m|3|income,budget,bills,savings
+Bill Tracker|🧾|m|5|bills,subs,notes
+Savings Challenge|🐷|n|0|savings,goals,notes
+Expense Tracker|🪙|m|7|expenses,budget,notes
+Debt Payoff Plan|📉|n|9|debt,savings,goals,notes
+Monthly Money Dates|💵|m|3|income,bills,expenses
+Subscription Tracker|📺|n|8|subs,notes
+No-Spend Challenge|🚫|m|0|h31,savings,reflect
+Wedding Budget|💍|n|2|budget,expenses,notes
+Holiday Gift Budget|🎁|n|0|gifts,budget,notes
+#School
+Student Planner|🎒|w|6|week,assign,exam
+Assignment Tracker|📚|n|6|assign,exam,notes
+Class Schedule|🏫|n|8|classes,assign,notes
+Study Timetable|📖|w|6|week,study,focus
+Exam Countdown|🎓|n|1|exam,study,notes
+Homework Helper|✏️|d|7|assign,todo,notes
+Lecture Notes|🖊️|n|4|ideas,notes
+Thesis Tracker|🎓|m|9|month,project,notes
+Pomodoro Study|🍅|d|0|focus,study,todo,notes
+Flashcard Goals|🗂️|n|5|study,goals,notes
+#Work & Business
+Work Planner|💼|d|9|hr,pri,todo,meeting
+Small Business Orders|🛍️|n|0|orders,inventory,notes
+Content Planner|📲|m|8|month,content,ideas
+Meeting Notes|🗒️|n|9|meeting,project,notes
+Project Planner|📌|n|1|project,goals,notes
+Weekly Business Review|📈|w|9|kpi,reflect,goals
+Client Tracker|🤝|n|8|contacts,project,notes
+Social Media Calendar|💬|m|0|month,content,ideas
+Etsy Seller Planner|🧶|n|2|orders,inventory,goals,notes
+Side Hustle Goals|🚀|m|5|kpi,goals,reflect
+#Home & Family
+Family Command Center|🏡|w|7|week,chores,shop,events
+Chore Chart|🧹|w|3|chores,win,notes
+Cleaning Schedule|🧽|m|6|chores,goals,notes
+Grocery List|🛒|n|3|shop,meals,notes
+Birthday Tracker|🎂|n|0|birthdays,gifts,notes
+Kids Routine|🧒|d|7|hab7,chores,win
+Home Reset Plan|🪴|w|3|chores,shop,notes
+Pet Care Planner|🐶|w|5|pet,shop,notes
+Plant Care Log|🌿|n|3|plants,notes
+Moving Checklist|📦|n|8|packing,todo,notes
+#Lifestyle & Fun
+Travel Planner|✈️|n|6|itin,packing,budget,notes
+Packing List|🧳|n|6|packing,wish,notes
+Reading Journal|📚|n|2|reading,wish,notes
+Movie Night Log|🎬|n|9|movies,reflect,notes
+Recipe Card|🍰|n|5|recipe,steps,notes
+Wishlist Planner|🛍️|n|8|wish,gifts,notes
+Bucket List|🪣|n|7|wish,goals,notes
+Party Planner|🎉|n|8|todo,shop,contacts,notes
+Wedding Planner|👰|n|2|todo,budget,contacts,notes
+Gift Giving Planner|🎁|n|0|gifts,birthdays,notes
+Dear Diary|🦋|d|2|win,gratitude,mood,notes`;
+const CAT=[],CATS=[];let _c='';
+RAW.split('\n').forEach(l=>{if(l[0]==='#'){_c=l.slice(1);CATS.push(_c)}else{const[n,e,t,s,b]=l.split('|');CAT.push({i:CAT.length,n,e,t,s:SKN[[1,2,3,9,0,7,4,6,8,5][+s]],b:b.split(','),c:_c})}});
+
+const OV={'Minimal Moon Daily':'mocha','Digital Detox Plan':'sagej','Thesis Tracker':'sagej','Pomodoro Study':'pixarcade','Chore Chart':'pixgarden','Step Count Challenge':'pixgarden','Brain Dump Daily':'lineart','Lecture Notes':'lineart','Dear Diary':'lineblush','Hustle Week':'boss','Focus Mode Daily':'boss','Side Hustle Goals':'fire','30-Day Challenge':'fire','Work Planner':'navy','Project Planner':'navy','Meeting Notes':'navy','Client Tracker':'navy','Running Log':'forest','Workout Planner':'carbon','Weekly Business Review':'carbon'};
+Object.entries(OV).forEach(([n,k])=>{const c=CAT.find(x=>x.n===n);if(c)c.s=k});
+/* ---- blocks: [title, flex weight, kind, arg, rows] ---- */
+const BK={
+hr:['Schedule',1.6,'hours'],pri:['Top 3 priorities',.55,'pri'],todo:['To-do',1.3,'ck'],water:['Water',.45,'dots','8'],mood:['Mood',.45,'mood'],notes:['Notes',1,'wa'],
+goals:['Goals',1,'ck'],gratitude:['Grateful for',.8,'lab','1|2|3'],meals:['Meals',1,'lab','Breakfast|Lunch|Dinner|Snacks'],win:["Today's little win",.55,'wa'],focus:['Focus sessions',.45,'dots','8'],selfcare:['Self-care',.9,'ck'],brain:['Brain dump',1.2,'wa'],ideas:['Ideas',1,'wa'],
+hab7:['Habits',1,'hab7'],affirm:['Affirmation',.55,'wa'],reflect:['Reflection',1,'lab','Went well|Could be better|Next time'],
+bills:['Bills',1.4,'tbl','Bill|Due|Amount|Paid*',9],budget:['Budget',1.4,'tbl','Category|Planned|Actual',9],expenses:['Expenses',1.6,'tbl','Date|Item|Amount',12],income:['Income',.8,'tbl','Source|Amount',4],savings:['Savings tracker',1,'dots','50'],debt:['Debt payoff',1,'tbl','Debt|Balance|Paid*',6],subs:['Subscriptions',1,'tbl','Service|Cost|Renews',7],
+shop:['Shopping list',1.4,'ck'],wish:['Wishlist',1,'ck'],chores:['Chores',1.4,'tbl','Chore|Who|Done*',9],birthdays:['Birthdays',1,'tbl','Name|Date|Gift idea',8],gifts:['Gift ideas',1,'tbl','For|Idea|Bought*',7],events:['Events',1,'tbl','Date|Event',7],
+assign:['Assignments',1.4,'tbl','Subject|Task|Due|Done*',9],study:['Study plan',1.3,'tbl','Subject|Topic|Done*',8],exam:['Exam countdown',.8,'tbl','Exam|Date',4],classes:['Class schedule',2,'tbl','Time|Mon|Tue|Wed|Thu|Fri',8],
+kpi:['Goals & metrics',1,'tbl','Metric|Target|Actual',6],meeting:['Meeting',1,'lab','Agenda|Notes|Action items'],content:['Content ideas',1.4,'tbl','Post|Platform|Posted*',9],orders:['Orders',1.6,'tbl','Customer|Item|Paid*',10],inventory:['Inventory',1.4,'tbl','Item|Qty|Reorder*',9],contacts:['Contacts',1.2,'tbl','Name|Phone|Notes',8],project:['Project tasks',1.4,'tbl','Task|Owner|Due|Done*',9],
+packing:['Packing list',1.4,'ck'],itin:['Itinerary',1.5,'lab','Day 1|Day 2|Day 3|Day 4|Day 5'],
+reading:['Reading log',1.4,'tbl','Title|Author|Rating',8],movies:['Watch list',1.2,'tbl','Title|Where|Seen*',8],recipe:['Ingredients',1,'ck'],steps:['Steps',1.2,'wa'],
+workout:['Workout',1.5,'tbl','Exercise|Sets|Reps|Done*',9],sleep:['Sleep',.7,'dots','10'],weight:['Weigh-in',1,'tbl','Date|Weight',6],skincare:['Skincare',1.2,'lab','AM|PM|Notes'],pet:['Pet care',1.3,'tbl','Task|Time|Done*',7],plants:['Plant care',1.4,'tbl','Plant|Watered|Fed',8],
+week:['This week',2,'week'],month:['Month',2.6,'month'],year:['Year at a glance',2,'year'],h31:['Habit matrix',2,'h31']};
+const BIG={week:'m',month:'m',classes:'m',year:'w',h31:'w'};
+const CHIPS=['Free starters',...CATS];
+const FREE_N=12,MAXP=62,PN={week:'Weekly',month:'Monthly',year:'Yearly'};
+const SC=CAT.map(c=>c.b.reduce((a,k)=>{const[,,kd,x,r]=BK[k];return a+KW[kd]+(kd==='tbl'?r/6:kd==='dots'?(+x)/25:0)},0));
+CAT.forEach((c,i)=>{c.p=1+CUTS.filter(v=>SC[i]>=v).length;c.free=false});
+SC.map((_,i)=>i).sort((a,b)=>SC[a]-SC[b]||a-b).slice(0,FREE_N).forEach(i=>{CAT[i].free=true});
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');return m?new Date(+m[1],m[2]-1,+m[3]):new Date()};
+const addD=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);
+const dim=(y,m)=>new Date(y,m+1,0).getDate();
+const eom=d=>new Date(d.getFullYear(),d.getMonth()+1,0);
+const WSN={mon:1,sun:0,sat:6};
+const FI=Math.max(0,CAT.findIndex(c=>c.free));
+const DEF={tpl:String(FI),cat:CHIPS[0],paper:'a4',theme:CAT[FI].s,font:'sans',line:'lined',cute:2,quote:false,qmode:'auto',qglobal:'',qlist:'',title:'My Planner',showDate:true,date:iso(new Date()),end:iso(eom(new Date())),ws:'mon',binder:false,zoom:75,scope:'single',heads:{},data:{}};
+const rd=k=>{try{return JSON.parse(localStorage.getItem(k)||'{}')}catch(e){return{}}};
+let U=Object.assign({max:0,plan:null,used:{}},rd('hv-unlock'));
+const saveU=()=>{try{localStorage.setItem('hv-unlock',JSON.stringify(U))}catch(e){}};
+let S=Object.assign({},DEF,rd('hv-planner'));
+if(S.scope==='batch')S.scope='range';
+if(!CAT[+S.tpl])S.tpl='0';if(!T[S.theme])S.theme=CAT[+S.tpl].s;if(!CHIPS.includes(S.cat))S.cat=CHIPS[0];
+if(!WSN.hasOwnProperty(S.ws))S.ws='mon';
+S.heads=Object.assign({},S.heads);S.data=Object.assign({},S.data);
+if(S.max>U.max){U.max=S.max;saveU()}delete S.max;
+const save=()=>{try{localStorage.setItem('hv-planner',JSON.stringify(S))}catch(e){}};
+let pi=0,EDIT=true,Q='',PK='',PERR='',BUSY=false;
+const def=()=>CAT[+S.tpl]||CAT[0];
+const sow=d=>addD(d,-((d.getDay()-WSN[S.ws]+7)%7));
+const wk=()=>[...Array(7)].map((_,i)=>(WSN[S.ws]+i)%7);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const fmtD=d=>`${d.getDate()} ${MS[d.getMonth()]} ${d.getFullYear()}`;
+const scope=()=>S.showDate&&def().t!=='n'?S.scope:'single';
+const planActive=()=>!!(U.plan&&U.plan.exp>Date.now());
+const paid=()=>U.max>0||planActive();
+function price(){const c=def(),r=scope()==='range';return c.free?(r?Math.min(8,KOFI.bump):0):Math.min(8,c.p+(r?KOFI.bump:0))}
+const locked=()=>{const p=price();return p>0&&!planActive()&&p>U.max};
+const TL=['','Simple','Simple','Cozy','Cozy','Detailed','Detailed','Premium','Premium'];
+const kofiUrl=()=>KOFI.tiers[price()]||`https://ko-fi.com/${KOFI.user}/shop`;
+const planUrl=k=>KOFI.plans[k].link||`https://ko-fi.com/${KOFI.user}/shop`;
+async function sha(t){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+const OWNER=new URLSearchParams(location.search).has('owner');
+async function genCfg(user,bump,urls,codes,pl){const hash={},tiers={},plans={};
+ for(let i=1;i<=8;i++){const c=(codes[i]||'').trim().toUpperCase();hash[i]=c?await sha(c):KOFI.hash[i];tiers[i]=(urls[i]||'').trim()}
+ for(const k of['week','month','year']){const x=(pl&&pl[k])||{},c=(x.code||'').trim().toUpperCase();plans[k]={days:KOFI.plans[k].days,price:Math.max(1,+x.price||KOFI.plans[k].price),link:(x.link||'').trim(),hash:c?await sha(c):KOFI.plans[k].hash}}
+ return'window.HV_CONFIG='+JSON.stringify({user:(user||'').trim()||KOFI.user,bump:Math.max(0,Math.min(7,+bump||0)),tiers,hash,plans},null,1)+';'}
+function buildOwner(){
+ const rows=[...Array(8)].map((_,i)=>`<div class="row"><b>$${i+1}</b><input class="in" id="ou${i+1}" placeholder="Ko-fi item link" value="${esc(KOFI.tiers[i+1]||'')}"><input class="in" id="oc${i+1}" placeholder="new code (optional)"></div>`).join('');
+ const prow=['week','month','year'].map(k=>`<label class="lb">${PN[k]} pass (${KOFI.plans[k].days} days)</label><div class="row3"><input class="in" id="opp_${k}" type="number" min="1" value="${KOFI.plans[k].price}" aria-label="${PN[k]} price"><input class="in" id="opl_${k}" placeholder="Ko-fi item link" value="${esc(KOFI.plans[k].link||'')}"><input class="in" id="opc_${k}" placeholder="new code (optional)"></div>`).join('');
+ $('#side').insertAdjacentHTML('beforeend',`<section class="own"><h2>Owner tools</h2><p class="pn">Fill in the boxes, press Generate, then paste the result into config.js on GitHub and commit. Leave a code box empty to keep the current code.</p><label class="lb">Ko-fi username</label><input class="in" id="ouser" value="${esc(KOFI.user)}"><label class="lb">Extra price for date-range export ($)</label><input class="in" id="obump" type="number" min="0" max="7" value="${KOFI.bump}"><label class="lb">Single planner unlocks</label>${rows}${prow}<button class="btn pri" id="gen" style="width:100%">Generate config.js</button><textarea id="oout" readonly aria-label="config.js text"></textarea><button class="btn" id="ocopy">Copy</button><div class="pn" id="olinks"></div></section>`);
+ $('#gen').onclick=async()=>{const u={},c={},pl={};for(let i=1;i<=8;i++){u[i]=$('#ou'+i).value;c[i]=$('#oc'+i).value}
+  for(const k of['week','month','year'])pl[k]={price:$('#opp_'+k).value,link:$('#opl_'+k).value,code:$('#opc_'+k).value};
+  $('#oout').value=await genCfg($('#ouser').value,$('#obump').value,u,c,pl);
+  const base=location.origin+location.pathname,L=[];
+  for(let i=1;i<=8;i++)if(c[i].trim())L.push(`$${i}: ${base}?code=${c[i].trim().toUpperCase()}`);
+  for(const k of['week','month','year'])if(pl[k].code.trim())L.push(`${PN[k]}: ${base}?code=${pl[k].code.trim().toUpperCase()}`);
+  $('#olinks').innerHTML='<b>Links for your Ko-fi thank-you messages:</b><br>'+L.map(esc).join('<br>')};
+ $('#ocopy').onclick=()=>{const t=$('#oout');t.select();try{navigator.clipboard.writeText(t.value)}catch(e){document.execCommand('copy')}}}
+/* ---- page data: everything a customer types is stored in S.data and drawn again on print/PDF pages ---- */
+const pkOf=(d,t)=>t==='d'?iso(d):t==='w'?iso(sow(d)):t==='m'?`${d.getFullYear()}-${pad(d.getMonth()+1)}`:'n';
+const dk=f=>`${S.tpl}|${PK}|${f}`;
+const dv=f=>S.data[dk(f)];
+function ed(id,df,ph){const v=S.heads[id]!==undefined?S.heads[id]:df;return EDIT?`<span class="ed" contenteditable spellcheck="false" data-h="${id}" data-ph="${ph||'Add text'}">${esc(v)}</span>`:`<span>${esc(v)}</span>`}
+function fld(f,cls,df,allow){const raw=dv(f),v=raw!==undefined?raw:(df||''),on=EDIT&&allow!==false;
+ return on?`<span class="fe ${cls||''}" contenteditable spellcheck="false" data-f="${dk(f)}"${df!==undefined?' data-d="1"':''}>${esc(v)}</span>`:`<span class="fe ${cls||''}">${esc(v)}</span>`}
+function tg(f,cls,onH,offH){const on=!!dv(f),h=on?(onH||''):(offH||'');return EDIT?`<i class="${cls}${on?' on':''} tg" data-t="${dk(f)}" role="checkbox" aria-checked="${on}">${h}</i>`:`<i class="${cls}${on?' on':''}">${h}</i>`}
+function cell(f,cls){const k=dk(f);return`<div class="${cls||''}${S.data[k]?' on':''}${EDIT?' tg':''}"${EDIT?` data-t="${k}"`:''}></div>`}
+const CK='<b>✓</b>';
+function wa(fc,f){let l=S.line;if(fc&&l==='lined')l='check';
+ if(l==='check')return`<div class="wa" style="overflow:hidden">${[...Array(40)].map((_,i)=>`<div class="ck">${tg(f+':c'+i,'cb',CK)}${fld(f+':r'+i,'ckf')}</div>`).join('')}</div>`;
+ return`<div class="wa ${l}">${fld(f,'ml wf')}</div>`}
+function face(i){const c=T[S.theme][2],m=['M8 16Q12 12 16 16','M8 15H16','M8 14Q12 18 16 14','M7 13Q12 20 17 13Z','M7 12Q12 22 17 12Z'][i];return`<svg width="1.7em" height="1.7em" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 9h.01M15 9h.01"/><path d="${m}"/></svg>`}
+function bodyOf(kd,a,d,r,key){switch(kd){
+ case'wa':return wa(0,key);case'ck':return wa(1,key);
+ case'hours':return[...Array(16)].map((_,i)=>{const h=i+6;return`<div class="hr"><span class="hl">${h%12||12} ${h>=12?'PM':'AM'}</span>${fld('hr:'+h,'hf')}</div>`}).join('');
+ case'pri':return[1,2,3].map(n=>`<div class="pr"><b>${n}</b>${fld(key+':'+n,'pf')}</div>`).join('');
+ case'num':return`<div class="dts">${[...Array(+a)].map((_,i)=>tg(key+':'+i,'dt nm',i+1,i+1)).join('')}</div>`;
+ case'dots':return`<div class="dts">${[...Array(+a)].map((_,i)=>tg(key+':'+i,'dt'+(+a>20?' sm':''))).join('')}</div>`;
+ case'mood':{const sel=dv(key);return`<div class="mood">${[0,1,2,3,4].map(i=>{const on=sel!==undefined&&String(sel)===String(i);return EDIT?`<span class="fc tg${on?' on':''}" data-m="${dk(key)}" data-i="${i}">${face(i)}</span>`:`<span class="fc${on?' on':''}">${face(i)}</span>`}).join('')}</div>`}
+ case'lab':return a.split('|').map((x,i)=>`<div class="lr"><span class="ll">${x}</span>${fld(key+':'+i,'lf')}</div>`).join('');
+ case'tbl':{const h=a.split('|'),cols=h.map((_,i)=>i||h.length>4?'1fr':'2fr').join(' ');return`<div class="tb" style="grid-template-columns:${cols};grid-template-rows:auto repeat(${r},minmax(0,1fr))">${h.map(x=>`<b>${x.replace('*','')}</b>`).join('')}${[...Array(r)].map((_,ri)=>h.map((x,ci)=>`<div>${x.endsWith('*')?tg(`${key}:r${ri}c${ci}`,'bx',CK):fld(`${key}:r${ri}c${ci}`,'tf')}</div>`).join('')).join('')}</div>`}
+ case'hab7':return`<div class="hg hh"><span></span>${wk().map(x=>`<span>${DS[x][0]}</span>`).join('')}</div>`+[...Array(6)].map((_,r)=>`<div class="hg h6">${fld(key+':n'+r,'hl7')}${wk().map((_,c)=>tg(`${key}:${r}.${c}`,'bx',CK)).join('')}</div>`).join('');
+ case'week':{const s=sow(d);return[...Array(7)].map((_,i)=>{const x=addD(s,i);return`<div class="wr"><div class="wd"><b>${DS[x.getDay()]}</b>${S.showDate?`<small>${x.getDate()} ${MS[x.getMonth()]}</small>`:`<small>${fld(key+':d'+i,'wdf')}</small>`}</div>${wa(0,key+':'+i)}</div>`}).join('')}
+ case'month':{const y=d.getFullYear(),m=d.getMonth(),off=(new Date(y,m,1).getDay()-WSN[S.ws]+7)%7,n=dim(y,m),rows=S.showDate?Math.ceil((off+n)/7):6,w=wk();
+  return`<div class="mh">${w.map(x=>`<span>${DS[x]}</span>`).join('')}</div><div class="mg" style="grid-template-rows:repeat(${rows},minmax(0,1fr))">${[...Array(rows*7)].map((_,i)=>{const k=i-off+1,inm=k>=1&&k<=n;return`<div class="mc"${w[i%7]%6===0?' style="background:var(--soft)"':''}>${S.showDate?(inm?`<span class="dn">${k}</span>`:''):`<span class="dn">${fld(key+':n'+i,'dnf')}</span>`}${!S.showDate||inm?fld(key+':'+(S.showDate?k:i),'mf'):''}</div>`}).join('')}</div>`}
+ case'year':{const y=d.getFullYear();return`<div class="yr" style="grid-template-rows:repeat(12,minmax(0,1fr))">${[...Array(12)].map((_,m)=>`<div class="ym">${MS[m]}</div>`+[...Array(31)].map((_,i)=>S.showDate&&i+1>dim(y,m)?'<div style="background:var(--soft)"></div>':cell(`${key}:${m}.${i}`)).join('')).join('')}</div>`}
+ case'h31':{const y=d.getFullYear(),m=d.getMonth(),n=S.showDate?dim(y,m):31,cols=`20% repeat(${n},minmax(0,1fr))`,R=14;
+  return`<div class="hd" style="grid-template-columns:${cols}"><div class="nm">${ed(S.tpl+'.hcol','Habit')}</div>${[...Array(n)].map((_,i)=>`<div><small>${S.showDate?DS[new Date(y,m,i+1).getDay()][0]:'&nbsp;'}</small><b>${i+1}</b></div>`).join('')}</div><div class="hb" style="grid-template-columns:${cols};grid-template-rows:repeat(${R},minmax(0,1fr))">${[...Array(R)].map((_,r)=>`<div class="hn">${ed(S.tpl+'.row.'+r,'','Add habit')}</div>`+[...Array(n)].map((_,c)=>cell(`${key}:${r}.${c}`)).join('')).join('')}</div>`}
+}}
+const HP=[[3,2],[28,1],[52,2],[74,1],[94,3],[2,24],[96,28],[3,50],[95,55],[2,76],[96,80],[10,97],[35,98],[60,97],[88,98]];
+function hdText(d,t){if(t==='d')return`${DN[d.getDay()]}, ${d.getDate()} ${MN[d.getMonth()]} ${d.getFullYear()}`;if(t==='w'){const a=sow(d),b=addD(a,6);return`${a.getDate()} ${MS[a.getMonth()]} – ${b.getDate()} ${MS[b.getMonth()]} ${b.getFullYear()}`}return`${MN[d.getMonth()]} ${d.getFullYear()}`}
+const BL={d:'Date',w:'Week of',m:'Month'};
+function quoteText(d){const i=(d.getDate()+d.getMonth()*7);let t=QT[i%QT.length];
+ if(S.qmode==='global'&&S.qglobal.trim())t=S.qglobal.trim();
+ else if(S.qmode==='list'){const L=S.qlist.split('\n').map(x=>x.trim()).filter(Boolean);if(L.length)t=L[i%L.length]}
+ return t}
+function page(d,edit,wm){
+ const df=def(),p=P[S.paper],t=T[S.theme],sk=SK[S.theme],c=+S.cute,L=p.m+(S.binder?8:0),kind=t[6],g=x=>x.replace(/#c/g,t[2]),em=kind==='cute'?df.e:g(sk[df.i%sk.length]);
+ EDIT=edit&&!locked();PK=pkOf(d,df.t);
+ const stk=k=>c?`<span class="sk">${g(sk[[...k].reduce((a,x)=>a+x.charCodeAt(0),0)%sk.length])}</span>`:'';
+ const blk=k=>{const[b,f,kd,a,r]=BK[k];return`<section class="sec" style="flex:${f}"><div class="sh">${stk(k)}${ed(S.tpl+'.'+k,b)}</div><div class="sb">${bodyOf(kd,a,d,r,k)}</div></section>`};
+ const ks=df.b,big=ks.find(k=>BIG[k]),rest=ks.filter(k=>k!==big);let body;
+ if(big&&BIG[big]==='w')body=`<div class="col g14 fill"><div class="col" style="flex:1.8">${blk(big)}</div><div class="grid2 f1" style="grid-template-columns:repeat(${Math.min(3,rest.length)},1fr);gap:1.3em">${rest.slice(0,3).map(blk).join('')}</div></div>`;
+ else if(big)body=`<div class="grid2 fill" style="grid-template-columns:2.2fr 1fr;gap:1.4em"><div class="col">${blk(big)}</div><div class="col g12">${rest.map(blk).join('')}</div></div>`;
+ else{const A=[],B=[];let a=0,b=0;ks.forEach(k=>{if(a<=b){A.push(k);a+=BK[k][1]}else{B.push(k);b+=BK[k][1]}});body=`<div class="grid2 fill" style="grid-template-columns:${B.length?'1fr 1fr':'1fr'};gap:1.5em"><div class="col g12">${A.map(blk).join('')}</div>${B.length?`<div class="col g12">${B.map(blk).join('')}</div>`:''}</div>`}
+ const qt=quoteText(d),quote=(S.quote||kind==='mot')?`<div class="qt">“${paid()?fld('quote','qf',qt,true):`<span class="fe qf">${esc(QT[(d.getDate()+d.getMonth()*7)%QT.length])}</span>`}”</div>`:'';
+ const right=df.t==='n'?'':S.showDate?fld('hdate','hdt',hdText(d,df.t)):`${BL[df.t]} ${fld('hdate','bl','')}`;
+ const stx=c?(c>1?HP:[HP[4],HP[11],HP[14],HP[0]]).map((q,i)=>`<span class="stk" style="left:${q[0]}%;top:${q[1]}%;font-size:${c>1?1.9:1.6}em;transform:translate(-50%,-50%) rotate(${i*37%40-20}deg)">${i%4===0?em:g(sk[i%sk.length])}</span>`).join(''):'';
+ return`<div class="pg c${c} s-${kind}" data-pg style="--ink:${t[1]};--accent:${t[2]};--soft:${t[3]};--line:${t[4]};--muted:${t[5]};--ph:${p.h}mm;width:${p.w}mm;height:${p.h}mm;padding:${p.m}mm ${p.m}mm ${p.m}mm ${L}mm;font-size:${p.f}px;font-family:${F[S.font][1]}">${EDIT&&S.binder?`<div class="bz" style="width:${L}mm"></div>`:''}${c?'<div class="fr"></div><div class="tp"></div>':''}<header><h1>${c?`<span class="em">${em}</span>`:''}${EDIT?`<span class="ed" contenteditable spellcheck="false" data-h="__t" data-ph="Planner title">${esc(S.title)}</span>`:esc(S.title)}</h1><p>${right}</p></header>${quote}<div class="pb">${body}</div>${stx}${wm?`<div class="wm"><span>SAMPLE · ko-fi.com/${KOFI.user}</span></div>`:''}</div>`}
+/* ---- date range -> list of pages ---- */
+function pages(){PERR='';const a=parse(S.date),t=def().t;if(scope()==='single')return[a];
+ const b=parse(S.end);if(b<a){PERR='The last date must be on or after the first date.';return[a]}
+ const out=[];
+ if(t==='d')for(let x=a;x<=b&&out.length<=MAXP;x=addD(x,1))out.push(x);
+ else if(t==='w')for(let x=sow(a);x<=b&&out.length<=MAXP;x=addD(x,7))out.push(x);
+ else for(let m=a.getMonth();new Date(a.getFullYear(),m,1)<=b&&out.length<=MAXP;m++)out.push(new Date(a.getFullYear(),m,1));
+ if(out.length>MAXP){PERR=`That range is more than ${MAXP} pages. Please choose a shorter range.`;return[a]}
+ return out}
+const pgLabel=(d,t)=>t==='m'?`${MS[d.getMonth()]} ${d.getFullYear()}`:t==='w'?'week of '+fmtD(sow(d)):fmtD(d);
+function seg(k,opts,cls,cols){return`<div class="seg ${cls||''}" style="grid-template-columns:repeat(${cols||opts.length},1fr)">${opts.map(o=>`<button data-k="${k}" data-v="${o[0]}"${o[2]?` style="font-family:${o[2]}"`:''}>${o[1]}</button>`).join('')}</div>`}
+function buildSide(){
+ $('#side').innerHTML=`<section><h2>Choose a planner</h2><input class="in" id="q" placeholder="Search ${CAT.length} planners" aria-label="Search planners"><div class="cats" id="cats"></div><div class="pins" id="pins"></div></section>
+ <section id="datesec"><h2>Dates</h2><p class="pn" id="dnote"></p>${seg('showDate',[['true','Choose the date'],['false','Write the date by hand']])}${seg('scope',[['single','One page'],['range','Date range']])}<label class="lb" for="date" id="dl">Date</label><input class="in" type="date" id="date"><div id="endwrap"><label class="lb" for="end">Last date</label><input class="in" type="date" id="end"><div class="cats"><button class="pre" id="pm">This month</button><button class="pre" id="p4">4 weeks</button><button class="pre" id="p12">12 months</button></div></div><label class="lb">Week starts on</label>${seg('ws',[['mon','Monday'],['sun','Sunday'],['sat','Saturday']])}<p class="sum" id="dsum"></p><p class="err" id="derr"></p></section>
+ <section id="unlock"><h2>Unlock</h2><div class="shop"><span class="ustat" id="ustat"></span><div class="price"><b id="pr"></b><span id="pl"></span></div><p class="pn" id="pn2"></p><a class="btn pri" id="kofi" target="_blank" rel="noopener"></a><div class="gh">Or unlock every planner (personal use)</div><div class="plans">${['week','month','year'].map(k=>`<a class="plan${k==='year'?' best':''}" id="pl_${k}" target="_blank" rel="noopener">${k==='year'?'<em>Best value</em>':''}<b>${PN[k]}</b><span id="pp_${k}"></span><small id="pd_${k}"></small></a>`).join('')}</div><label class="lb" for="code" style="margin-top:12px">Already have a code?</label><div class="crow"><input class="in" id="code" placeholder="HV3-XXXXX-XXXXX" autocomplete="off"><button class="btn" id="apply">Apply</button></div><small id="cmsg"></small><p class="pn fine">Personal use only. Not for resale or sharing. Your unlock stays on this device for every planner, date and export until a pass ends.</p></div></section>
+ <section><h2>Style</h2>${seg('cute',Object.entries(CUTE))}${GROUPS.map(([g,ks])=>`<div class="gh">${g}</div><div class="chips">${ks.map(k=>`<button class="chip" data-k="theme" data-v="${k}"><span class="dots">${[T[k][1],T[k][2],T[k][3]].map(c=>`<i style="background:${c}"></i>`).join('')}</span><small>${T[k][0]}</small></button>`).join('')}</div>`).join('')}</section>
+ <section id="qsec"><h2>Quotes</h2><label class="ck2"><input type="checkbox" id="quote"><span>Quote on every page<small>A short line under the title (always on for Motivational styles)</small></span></label>${seg('qmode',[['auto','Built-in'],['global','My quote'],['list','My list']])}<textarea class="in ta" id="qtxt" aria-label="Your quotes"></textarea><p class="pn" id="qhelp"></p><p class="pn" id="qlock">Writing your own quotes unlocks with any paid code or pass.</p></section>
+ <section><h2>Paper size</h2>${seg('paper',Object.entries(P).map(([k,v])=>[k,v.l]))}<small style="color:#8b7a85" id="psz"></small></section>
+ <section><h2>Font</h2>${seg('font',Object.entries(F).map(([k,v])=>[k,v[0],v[1]]),'v',1)}</section>
+ <section><h2>Lines</h2>${seg('line',Object.entries(LS),'',2)}</section>
+ <section><h2>Title and binder</h2><label class="lb" for="title">Planner title</label><input class="in" id="title"><label class="ck2"><input type="checkbox" id="binder"><span>Hole-punch safe zone<small>Adds 8 mm to the inner margin for ring binders</small></span></label></section>
+ <section><h2>Reset</h2><button class="btn" id="rh">Reset headings</button> <button class="btn" id="rd">Clear my entries</button> <button class="btn" id="ra">Reset design</button></section>`;
+ $('#zoom').innerHTML=[50,75,100].map(z=>`<button data-k="zoom" data-v="${z}">${z}%</button>`).join('')}
+function thumb(id,k){const o={tpl:S.tpl,theme:S.theme,paper:S.paper,binder:S.binder};S.tpl=id;S.theme=CAT[+id].s;S.paper='a4';S.binder=false;const h=page(parse(S.date),false);Object.assign(S,o);EDIT=true;const w=210*96/25.4,hh=297*96/25.4;return`<div class="th" style="width:${w*k}px;height:${hh*k}px"><div style="width:${w}px;height:${hh}px;transform:scale(${k});transform-origin:top left;pointer-events:none">${h}</div></div>`}
+function renderPins(){const q=Q.trim().toLowerCase(),list=CAT.map((c,i)=>[c,i]).filter(([c])=>q?(c.n+' '+c.c+(c.free?' free':'')).toLowerCase().includes(q):S.cat===CHIPS[0]?c.free:c.c===S.cat).slice(0,16);
+ $('#pins').innerHTML=list.length?list.map(([c,i])=>{const tag=c.free?'<span class="pp ok">FREE</span>':`<span class="pp${planActive()||c.p<=U.max?' ok':''}">${planActive()||c.p<=U.max?'✓ Unlocked':'$'+c.p}</span>`;return`<button class="pin" data-k="tpl" data-v="${i}">${tag}${thumb(String(i),.185)}<b>${c.e} ${c.n}</b><small>${c.c}</small></button>`}).join(''):'<p class="none">No planner found. Try another word.</p>';
+ $('#cats').innerHTML=CHIPS.map(x=>`<button class="cat${!q&&S.cat===x?' on':''}" data-k="cat" data-v="${x}">${x}</button>`).join('')}
+function renderStack(){const pos=[['0',0,60,-7],['10',105,0,3],['13',215,64,9]];$('#stack').innerHTML=pos.map(p=>`<div style="position:absolute;left:${p[1]}px;top:${p[2]}px;transform:rotate(${p[3]}deg)">${thumb(p[0],.3)}</div>`).join('')}
+function sync(){
+ document.querySelectorAll('[data-k]').forEach(b=>{if(b.dataset.k!=='cat')b.classList.toggle('on',String(S[b.dataset.k])===b.dataset.v)});
+ const df=def(),t=df.t,nodate=t==='n'||!S.showDate,ps=pages(),pp=price(),lk=locked(),pd=paid(),pa=planActive(),rng=scope()==='range';
+ $('#dl').textContent=(rng?{d:'First day',w:'First week (any day in it)',m:'First month',n:'Date'}:{d:'Date',w:'Any day in the week',m:'Month',n:'Date'})[t];
+ $('#psz').textContent=P[S.paper].s;
+ $('#date').value=S.date;$('#end').value=S.end;$('#date').disabled=nodate;$('#end').disabled=nodate;
+ document.querySelectorAll('[data-k="scope"][data-v="range"]').forEach(b=>{b.disabled=nodate});
+ $('#endwrap').style.display=rng?'block':'none';
+ $('#dnote').textContent=t==='n'?'This planner has no dates, so it makes one page.':!S.showDate?'Undated: the page has a blank date line. Type the date on the page, or print it and write by hand.':'Pick the date for your page, or a range to make many pages at once. You can still retype the date on the page.';
+ $('#dsum').textContent=PERR?'':`${ps.length} page${ps.length>1?'s':''}${t==='n'||!S.showDate?'':': '+pgLabel(ps[0],t)+(ps.length>1?' to '+pgLabel(ps[ps.length-1],t):'')}`;
+ $('#derr').textContent=PERR;
+ $('#pr').textContent=pp?'$'+pp:'Free';$('#pl').textContent=pp?TL[pp]+' planner':'Starter planner';
+ $('#ustat').textContent=pa?`Unlocked: ${PN[U.plan.type]} plan until ${fmtD(new Date(U.plan.exp))}`:U.max>0?`Unlocked: planners up to $${U.max}`:'Free tier';
+ $('#ustat').className='ustat'+(pd?' ok':'');
+ $('#pn2').textContent=lk?'Preview mode: the PDF has a watermark and editing is off. Get your unlock code on Ko-fi to edit and remove it.':pp===0?'Free starter planner: edit it and export with no watermark.':'Unlocked: edit freely and export without a watermark.';
+ const kb=$('#kofi');kb.href=kofiUrl();kb.textContent=lk?`Get unlock code on Ko-fi ($${pp})`:'Support us on Ko-fi ♥';
+ for(const k of['week','month','year']){const x=KOFI.plans[k];$('#pl_'+k).href=planUrl(k);$('#pp_'+k).textContent='$'+x.price;$('#pd_'+k).textContent=k==='year'?`about $${(x.price/12).toFixed(2)} a month`:`${x.days} days`}
+ $('#binder').checked=S.binder;$('#quote').checked=S.quote;
+ const qa=document.activeElement!==$('#qtxt');
+ document.querySelectorAll('[data-k="qmode"]').forEach(b=>{b.disabled=!pd});
+ $('#qtxt').disabled=!pd||S.qmode==='auto';
+ $('#qtxt').placeholder=S.qmode==='list'?'One quote per line':S.qmode==='global'?'Type your quote':'Built-in quotes are on';
+ if(qa)$('#qtxt').value=S.qmode==='list'?S.qlist:S.qmode==='global'?S.qglobal:'';
+ $('#qlock').style.display=pd?'none':'block';
+ $('#qhelp').textContent=!pd?'':S.qmode==='global'?'This quote appears on every page.':S.qmode==='list'?'One quote per line. They rotate from page to page.':'Click the quote on a page to change just that page.';
+ if(!$('#title').matches(':focus'))$('#title').value=S.title;
+ $('#print').disabled=!!PERR||BUSY;$('#pdf').disabled=!!PERR||BUSY;
+ if(!BUSY)$('#pdf').textContent=ps.length>1&&!PERR?`Download PDF (${ps.length} pages)`:'Download PDF';
+ const lb=$('#lockbar');lb.hidden=!lk;$('#lbt').textContent=`Preview mode: this planner is $${pp}. Unlock it to edit, remove the watermark and export.`;
+ $('#hint').textContent=lk?'Preview mode. Unlock this planner to edit it.':'Click any heading or field on the page to type. Tap boxes, dots and faces to fill them.'}
+function draw(){
+ const ps=pages();pi=Math.min(pi,ps.length-1);const p=P[S.paper],k=S.zoom/100,w=p.w*96/25.4,h=p.h*96/25.4;
+ $('#box').style.cssText=`width:${w*k}px;height:${h*k}px`;
+ $('#inner').style.cssText=`width:${w}px;height:${h}px;transform:scale(${k})`;
+ $('#inner').innerHTML=page(ps[pi],true);
+ $('#nav').style.display=ps.length>1?'flex':'none';$('#pn').textContent=` ${pi+1} of ${ps.length} `;
+ $('#prev').disabled=pi===0;$('#next').disabled=pi===ps.length-1}
+function all(){save();renderPins();sync();draw()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-k]');if(!b||b.disabled)return;const k=b.dataset.k,v=b.dataset.v;
+ if(k==='tpl'){S.tpl=v;S.theme=CAT[+v].s;pi=0}else S[k]=(k==='zoom'||k==='cute')?+v:k==='showDate'?v==='true':v;
+ if(k==='cat')Q='';
+ if(k==='scope'&&v==='range'&&parse(S.end)<parse(S.date))S.end=iso(eom(parse(S.date)));
+ all()});
+$('#side').addEventListener('input',e=>{const t=e.target;if(t.id==='title'){S.title=t.value;save();draw()}else if(t.id==='q'){Q=t.value;renderPins();sync()}else if(t.id==='qtxt'){if(S.qmode==='list')S.qlist=t.value;else S.qglobal=t.value;save();draw()}});
+$('#side').addEventListener('change',e=>{const t=e.target;
+ if(t.id==='binder'){S.binder=t.checked;all()}else if(t.id==='quote'){S.quote=t.checked;all()}
+ else if(t.id==='date'&&t.value){S.date=t.value;if(parse(S.end)<parse(S.date))S.end=iso(eom(parse(S.date)));all()}
+ else if(t.id==='end'&&t.value){S.end=t.value;all()}});
+buildSide();renderStack();
+$('#kofiTop').href='https://ko-fi.com/'+KOFI.user;
+$('#lbb').onclick=()=>$('#unlock').scrollIntoView({behavior:'smooth',block:'start'});
+const preset=k=>{const a=parse(S.date);let s,e;if(k==='w'){s=sow(a);e=addD(s,27)}else{s=new Date(a.getFullYear(),a.getMonth(),1);e=eom(k==='m'?a:new Date(a.getFullYear(),a.getMonth()+11,1))}S.date=iso(s);S.end=iso(e);S.scope='range';all()};
+$('#pm').onclick=()=>preset('m');$('#p4').onclick=()=>preset('w');$('#p12').onclick=()=>preset('y');
+$('#apply').onclick=async()=>{const v=$('#code').value.trim().toUpperCase(),m=$('#cmsg');if(!v)return;const bad=x=>{m.style.color='#b42318';m.textContent=x};
+ if(!(window.crypto&&crypto.subtle))return bad('Unlock needs a secure (https) page.');
+ const h=await sha(v);let tier=0,plan='';for(let i=1;i<=8;i++)if(KOFI.hash[i]===h)tier=i;for(const k of['week','month','year'])if(KOFI.plans[k].hash===h)plan=k;
+ if(!tier&&!plan)return bad('That code is not valid. Check for typos.');
+ let msg='';
+ if(tier){U.max=Math.max(U.max,tier);msg=`Code accepted: planners up to $${U.max} are unlocked.`}
+ else{const st=U.used[h]||(U.used[h]=Date.now()),exp=st+KOFI.plans[plan].days*864e5;if(exp<=Date.now())return bad('This pass has ended on this device. Get a new one on Ko-fi.');if(!U.plan||exp>U.plan.exp)U.plan={type:plan,exp};msg=`${PN[plan]} plan active until ${fmtD(new Date(U.plan.exp))}. Every planner is unlocked.`}
+ saveU();$('#apply').classList.remove('pulse');{const u=new URL(location.href);u.searchParams.delete('code');history.replaceState(null,'',u)}
+ m.style.color='#067647';m.textContent=msg;$('#code').value='';all()};
+(()=>{const c=new URLSearchParams(location.search).get('code');if(!c)return;const m=$('#cmsg');$('#code').value=c.trim().toUpperCase();m.style.color='#067647';m.textContent='Your code is ready. Click Apply to unlock.';$('#apply').classList.add('pulse');setTimeout(()=>$('#code').scrollIntoView({block:'center'}),300)})();
+if(OWNER)buildOwner();
+$('#rh').onclick=()=>{S.heads={};all()};
+$('#rd').onclick=()=>{if(!confirm('Clear everything you typed in this planner, on every page?'))return;Object.keys(S.data).forEach(k=>{if(k.startsWith(S.tpl+'|'))delete S.data[k]});all()};
+$('#ra').onclick=()=>{S=Object.assign({},DEF,{heads:{},data:{},date:iso(new Date()),end:iso(eom(new Date()))});Q='';all()};
+$('#prev').onclick=()=>{pi--;draw()};$('#next').onclick=()=>{pi++;draw()};
+/* ---- live editing on the page preview ---- */
+let _st;const saveSoon=()=>{clearTimeout(_st);_st=setTimeout(save,200)};
+const flush=()=>{clearTimeout(_st);save()};window.addEventListener('pagehide',flush);window.addEventListener('beforeunload',flush);document.addEventListener('visibilitychange',()=>{if(document.hidden)flush()});
+const inner=$('#inner');
+inner.addEventListener('input',e=>{const t=e.target,ds=t.dataset||{};
+ if(ds.f){const v=t.innerText.replace(/\u00a0/g,' ').replace(/\n$/,'');if(v===''&&!ds.d)delete S.data[ds.f];else S.data[ds.f]=v;saveSoon()}
+ else if(ds.h){const v=t.textContent;if(ds.h==='__t'){S.title=v;$('#title').value=v}else S.heads[ds.h]=v;saveSoon()}});
+inner.addEventListener('keydown',e=>{const ds=e.target.dataset||{};if(e.key==='Enter'&&(ds.h||(ds.f&&!e.target.classList.contains('ml')))){e.preventDefault();e.target.blur()}});
+inner.addEventListener('paste',e=>{if(e.target.isContentEditable){e.preventDefault();document.execCommand('insertText',false,(e.clipboardData||window.clipboardData).getData('text/plain'))}});
+inner.addEventListener('click',e=>{const t=e.target.closest('[data-t],[data-m]');if(!t)return;const ds=t.dataset;
+ if(ds.t){const on=!S.data[ds.t];if(on)S.data[ds.t]=1;else delete S.data[ds.t];t.classList.toggle('on',on);t.setAttribute('aria-checked',on);if(t.classList.contains('bx')||t.classList.contains('cb'))t.innerHTML=on?CK:'';save()}
+ else{const was=String(S.data[ds.m])===ds.i;t.parentNode.querySelectorAll('.fc').forEach(x=>x.classList.remove('on'));if(was)delete S.data[ds.m];else{S.data[ds.m]=ds.i;t.classList.add('on')}save()}});
+/* ---- print and PDF (static copies of every page, with all typed content) ---- */
+function mount(){const p=P[S.paper],ex=document.createElement('div'),lk=locked();ex.id='ex';ex.innerHTML=`<style>@page{size:${p.w}mm ${p.h}mm;margin:0}</style>`+pages().map(d=>page(d,false,lk)).join('');EDIT=true;document.body.appendChild(ex);return ex}
+const unmount=()=>{const e=$('#ex');if(e)e.remove()};
+$('#print').onclick=()=>{pages();if(PERR)return;mount();window.print()};
+window.addEventListener('beforeprint',()=>{if(!$('#ex'))mount()});window.addEventListener('afterprint',unmount);
+$('#pdf').onclick=async()=>{
+ pages();if(PERR||BUSY)return;
+ const btn=$('#pdf'),p=P[S.paper];BUSY=true;btn.disabled=true;
+ try{
+  if(!window.jspdf||!window.html2canvas)throw new Error('PDF libraries did not load. Check your internet connection.');
+  const root=mount();await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));await document.fonts.ready;
+  const doc=new jspdf.jsPDF({unit:'mm',format:[p.w,p.h],compress:true}),els=[...root.querySelectorAll('[data-pg]')];
+  for(let i=0;i<els.length;i++){
+   btn.textContent=`Exporting ${i+1} of ${els.length}`;
+   const c=await html2canvas(els[i],{scale:3,backgroundColor:'#ffffff',logging:false,onclone:(_,el)=>{let n=el;while(n&&n.id!=='ex')n=n.parentElement;if(n){n.style.left='0px';n.style.top='0px'}}});
+   if(i)doc.addPage([p.w,p.h]);doc.addImage(c.toDataURL('image/png'),'PNG',0,0,p.w,p.h,undefined,'FAST');await new Promise(r=>setTimeout(r))}
+  doc.save((S.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'planner')+`-${def().n.toLowerCase().replace(/[^a-z0-9]+/g,'-')}-${S.paper}.pdf`);
+ }catch(err){alert('Export failed: '+err.message)}
+ finally{unmount();BUSY=false;sync()}};
+all();
+</script>
+</body>
+</html>
